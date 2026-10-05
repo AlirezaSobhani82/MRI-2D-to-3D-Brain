@@ -1,0 +1,6 @@
+numpy
+pydicom
+pyvista
+scipy
+scikit-image
+nibabel

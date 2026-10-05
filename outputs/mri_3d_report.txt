@@ -1,0 +1,27 @@
+MRI 3D BRAIN RECONSTRUCTION REPORT
+============================================================
+
+Modality: MR
+Series Number: 6
+Series Description: t1_mprage_sag_p2_iso_MPR_cor
+Slices: 175
+Voxel spacing: 1.0 x 1.0 x 1.0 mm
+Volume shape: (175, 210, 210)
+
+--- BRAIN ---
+Brain voxels: 1094785
+Brain volume: 1094.79 cm3
+Brain coverage: 14.19%
+
+--- VENTRICLES / CSF ESTIMATE ---
+Ventricle voxels: 67881
+Estimated volume: 67.88 cm3
+
+--- PROCESSING ---
+3D reconstruction performed at 1 mm isotropic target spacing.
+Ventricle visualization is an algorithmic intensity-based estimate.
+No tumor diagnosis or lesion diagnosis is performed by this demo.
+
+--- IMPORTANT ---
+This software is a research/demo visualization pipeline.
+It is not a clinically validated diagnostic or surgical navigation system.
