@@ -1,11 +1,13 @@
-# MRI 2D to 3D Brain Reconstruction
+# MRI 2D → 3D Brain Reconstruction
 
-A Python-based research and demonstration project for reconstructing a 3D brain surface from a series of 2D MRI DICOM slices.
+**Medical Imaging · DICOM · 3D Reconstruction · Computer Vision · Python**
 
-The project reads DICOM MRI series, reconstructs a volumetric representation, performs preprocessing and brain segmentation, extracts a 3D surface, and provides interactive visualization using PyVista.
+A research and demonstration project for reconstructing and visualizing a 3D brain surface from 2D MRI DICOM slices.
+
+The project focuses on DICOM processing, volumetric reconstruction, image preprocessing, brain segmentation, 3D surface extraction, mesh processing, and interactive visualization.
 
 > **Research / Demonstration Project**  
-> This project is intended for research and visualization purposes and is **not a clinically validated diagnostic or surgical navigation system**.
+> This project is intended for research and visualization purposes and is not clinically validated for diagnosis or clinical decision-making.
 
 ---
 
@@ -15,36 +17,36 @@ The project reads DICOM MRI series, reconstructs a volumetric representation, pe
 
 ![3D Brain Reconstruction](demo/brain_3D.png)
 
-### Interactive 3D Viewer
+### Interactive 3D Brain Viewer
 
-![3D Brain Viewer](demo/brain_3d_viewer.png)
+![Interactive 3D Brain Viewer](demo/brain_3d_viewer.png)
 
 ### Surface Reconstruction
 
-![Surface 3D](demo/surface_3d.png)
+![Surface Reconstruction](demo/surface_3d.png)
 
 ---
 
-## Overview
+## Project Overview
 
-MRI scanners produce a sequence of 2D cross-sectional images. This project demonstrates how these slices can be processed and reconstructed into a 3D representation of the brain.
+MRI data is typically acquired as a sequence of 2D cross-sectional slices.
 
-The general process is:
+This project demonstrates how these slices can be processed and reconstructed into a 3D representation of the brain.
 
 ```text
 2D MRI DICOM Slices
         │
         ▼
-DICOM Series Selection
+DICOM Series Analysis
         │
         ▼
-Volume Reconstruction
+3D Volume Reconstruction
         │
         ▼
 Intensity Normalization
         │
         ▼
-Isotropic Resampling
+1 mm Isotropic Resampling
         │
         ▼
 Brain Segmentation
@@ -53,67 +55,80 @@ Brain Segmentation
 3D Surface Extraction
         │
         ▼
+Mesh Processing
+        │
+        ▼
 Interactive 3D Visualization
 ```
 
-The project currently contains **three independent Python implementations** for MRI 3D reconstruction and visualization.
+The repository contains **three independent Python implementations** for MRI 3D reconstruction and visualization.
 
 ---
 
-## Project Structure
+# Key Features
 
-```text
-MRI-2D-to-3D-Brain/
-│
-├── README.md
-│
-├── src/
-│   ├── brain_3D.py
-│   ├── brain_3d_viewer.py
-│   └── surface_3d.py
-│
-├── demo/
-│   ├── brain_3D.png
-│   ├── brain_3d_viewer.png
-│   └── surface_3d.png
-│
-├── outputs/
-│   ├── brain_3d.ply
-│   ├── brain_3d.stl
-│   └── mri_3d_report.txt
-│
-├── requirements.txt
-│
-└── .gitignore
-```
-
----
-
-## Implementations
-
-### 1. `brain_3D.py`
-
-The main and most complete reconstruction implementation.
-
-Features include:
-
-- DICOM series discovery
-- Automatic MRI series ranking
-- T1 / T2 / FLAIR sequence prioritization
-- DICOM slice ordering using image orientation and position
+- DICOM MRI series discovery and analysis
+- MRI sequence selection and ranking
+- Geometry-aware DICOM slice ordering
+- 3D volumetric reconstruction
 - MRI intensity normalization
 - 1 mm isotropic resampling
 - Brain mask extraction
+- Morphological image processing
+- Connected-component analysis
+- Marching Cubes surface extraction
+- 3D mesh cleaning and smoothing
+- Mesh decimation
+- PLY and STL export
+- Interactive 3D visualization with PyVista
+- Optional NIfTI output
+- Reconstruction report generation
+
+---
+
+# Three Independent Implementations
+
+The repository contains three separate implementations. They are **not sequential stages of a single pipeline**.
+
+```text
+                         MRI DICOM
+                            │
+             ┌──────────────┼──────────────┐
+             │              │              │
+             ▼              ▼              ▼
+       brain_3D.py   brain_3d_viewer.py   surface_3d.py
+             │              │              │
+             ▼              ▼              ▼
+          Demo 1          Demo 2          Demo 3
+```
+
+## 1. `brain_3D.py`
+
+The main and most feature-rich implementation.
+
+It provides a complete workflow for MRI volume reconstruction, brain extraction, mesh generation, and interactive visualization.
+
+### Main capabilities
+
+- DICOM series scanning
+- MRI sequence ranking
+- T1 / T2 / FLAIR prioritization
+- Geometry-based slice ordering
+- Intensity normalization
+- 1 mm isotropic resampling
+- Brain mask extraction
 - Brain surface reconstruction
-- Ventricular / CSF estimation
+- Algorithmic ventricular / CSF estimation
 - Mesh cleaning
 - Mesh decimation
 - Surface smoothing
-- PLY and STL export
-- NIfTI output
-- Interactive PyVista visualization
+- PLY export
+- STL export
+- Optional NIfTI export
+- Interactive PyVista viewer
+- Reconstruction report generation
 
-The viewer also provides interactive controls for:
+### Interactive controls
 
 ```text
 Mouse Left   → Rotate
@@ -122,18 +137,18 @@ Mouse Right  → Pan
 
 1 → Toggle Brain
 2 → Toggle Ventricles
-O → Transparency
+O → Change Transparency
 R → Reset Camera
 Q → Exit
 ```
 
 ---
 
-### 2. `brain_3d_viewer.py`
+## 2. `brain_3d_viewer.py`
 
-An independent implementation focused on generating and displaying a 3D brain surface.
+An independent and simplified implementation focused on reconstructing and displaying a 3D brain surface.
 
-Main steps:
+Main stages:
 
 ```text
 DICOM
@@ -142,7 +157,7 @@ Series Selection
   ↓
 Volume Reconstruction
   ↓
-Normalization
+Intensity Normalization
   ↓
 1 mm Resampling
   ↓
@@ -153,15 +168,15 @@ Brain Mask
 Interactive Viewer
 ```
 
-It provides a simplified interactive 3D visualization using PyVista.
+This implementation provides a simpler approach for generating a smooth 3D brain surface and visualizing it interactively with PyVista.
 
 ---
 
-### 3. `surface_3d.py`
+## 3. `surface_3d.py`
 
-A separate experimental implementation for extracting a 3D brain surface directly from a selected MRI series.
+A separate experimental implementation focused on direct brain surface extraction.
 
-It performs:
+Main operations include:
 
 - DICOM scanning
 - Series analysis
@@ -169,34 +184,39 @@ It performs:
 - Intensity normalization
 - Isotropic resampling
 - Threshold-based brain extraction
+- Morphological processing
 - Connected-component filtering
-- Marching Cubes surface extraction
+- Marching Cubes
 - Mesh smoothing
 - Interactive 3D visualization
 
 ---
 
-## Technical Approach
+# Technical Approach
 
-### DICOM Processing
+## 1. DICOM Processing
 
-The project uses `pydicom` to read MRI DICOM files and extract important spatial information such as:
+The project uses `pydicom` to read MRI DICOM files and extract spatial and acquisition information.
 
-- `PixelSpacing`
-- `ImagePositionPatient`
-- `ImageOrientationPatient`
-- `SliceThickness`
-- `SeriesInstanceUID`
-- `SeriesDescription`
-- `Modality`
+Important metadata includes:
 
-Slices are ordered according to their physical position rather than their filename.
+```text
+PixelSpacing
+ImagePositionPatient
+ImageOrientationPatient
+SliceThickness
+SeriesInstanceUID
+SeriesDescription
+Modality
+```
+
+Slices are ordered according to their physical position and orientation rather than relying on filenames.
 
 ---
 
-### Volume Reconstruction
+## 2. 3D Volume Reconstruction
 
-Individual 2D MRI slices are stacked into a 3D volume:
+Individual MRI slices are reconstructed into a volumetric array.
 
 ```text
 Slice 1
@@ -206,25 +226,24 @@ Slice 3
    .
    .
 Slice N
-
-      ↓
-
+   │
+   ▼
 3D MRI Volume
 ```
 
-The original voxel spacing is extracted from the DICOM metadata.
+Voxel spacing is calculated from DICOM spatial metadata.
 
 ---
 
-### Intensity Normalization
+## 3. Intensity Normalization
 
-MRI intensity values are normalized using percentile-based clipping.
+MRI intensity values can vary significantly between scans.
 
-The lower and upper percentiles are used to reduce the influence of extreme intensity values before scaling the volume.
+The implementations use percentile-based intensity clipping and normalization to reduce the effect of extreme values and produce a more stable intensity range for subsequent processing.
 
 ---
 
-### Isotropic Resampling
+## 4. Isotropic Resampling
 
 The reconstructed volume is resampled toward:
 
@@ -234,15 +253,15 @@ The reconstructed volume is resampled toward:
 
 isotropic voxel spacing.
 
-This makes the spatial resolution approximately uniform in all three dimensions and provides a more consistent basis for 3D surface extraction.
+This provides approximately uniform spatial resolution in all three dimensions and improves consistency during 3D surface extraction.
 
 ---
 
-### Brain Segmentation
+## 5. Brain Segmentation
 
-A threshold-based segmentation approach is used to create an approximate brain mask.
+The project uses classical image-processing techniques to create an approximate brain mask.
 
-The processing includes techniques such as:
+Methods include:
 
 - Otsu thresholding
 - Binary opening
@@ -250,16 +269,15 @@ The processing includes techniques such as:
 - Hole filling
 - Distance transform
 - Connected-component analysis
+- Morphological filtering
 
-The largest relevant connected component is retained as the primary brain region.
+The largest relevant connected component is used as the primary brain region.
 
 ---
 
-### 3D Surface Reconstruction
+## 6. 3D Surface Reconstruction
 
 The 3D surface is extracted using the **Marching Cubes** algorithm.
-
-Conceptually:
 
 ```text
 3D MRI Volume
@@ -275,63 +293,105 @@ Vertices + Triangular Faces
       │
       ▼
 3D Mesh
+      │
+      ▼
+Cleaning / Smoothing / Decimation
+      │
+      ▼
+Interactive 3D Visualization
 ```
 
-The resulting mesh can be cleaned, simplified and smoothed before visualization or export.
+The resulting mesh can be exported as PLY or STL.
 
 ---
 
-## Output Formats
+# Output
 
-The main reconstruction implementation can generate:
-
-| Format | Purpose |
-|---|---|
-| `.PLY` | 3D mesh visualization and processing |
-| `.STL` | 3D mesh / CAD-compatible representation |
-| `.NII.GZ` | Volumetric medical imaging representation |
-| `.TXT` | Reconstruction report |
-
-Example outputs:
+The repository contains example generated outputs:
 
 ```text
 outputs/
 ├── brain_3d.ply
 ├── brain_3d.stl
-├── mri_3d_report.txt
-└── ...
+└── mri_3d_report.txt
+```
+
+### Supported output types
+
+| Format | Purpose |
+|---|---|
+| `.PLY` | 3D mesh visualization and processing |
+| `.STL` | 3D mesh and CAD-compatible workflows |
+| `.NII.GZ` | Volumetric medical imaging |
+| `.TXT` | Reconstruction report |
+
+---
+
+# Technologies
+
+### Programming
+
+- Python
+
+### Medical Imaging
+
+- pydicom
+- DICOM
+- NIfTI
+
+### Scientific Computing
+
+- NumPy
+- SciPy
+- scikit-image
+
+### 3D Processing & Visualization
+
+- PyVista
+- VTK
+- Marching Cubes
+
+### GUI
+
+- Tkinter
+
+### Optional
+
+- nibabel
+
+---
+
+# Main Algorithms
+
+```text
+DICOM Spatial Sorting
+        ↓
+Percentile-Based Normalization
+        ↓
+Isotropic Resampling
+        ↓
+Otsu Thresholding
+        ↓
+Morphological Processing
+        ↓
+Connected Components
+        ↓
+Distance Transform
+        ↓
+Marching Cubes
+        ↓
+Mesh Cleaning
+        ↓
+Mesh Decimation
+        ↓
+Surface Smoothing
+        ↓
+Interactive 3D Rendering
 ```
 
 ---
 
-## Technologies
-
-- Python
-- NumPy
-- SciPy
-- scikit-image
-- pydicom
-- PyVista
-- VTK
-- nibabel
-- Tkinter
-
-### Main Algorithms
-
-- DICOM spatial sorting
-- Percentile-based intensity normalization
-- Otsu thresholding
-- Morphological operations
-- Distance transform
-- Connected-component analysis
-- Marching Cubes
-- Mesh decimation
-- Taubin / surface smoothing
-- Interactive 3D rendering
-
----
-
-## Installation
+# Installation
 
 Clone the repository:
 
@@ -340,7 +400,7 @@ git clone https://github.com/AlirezaSobhani82/MRI-2D-to-3D-Brain.git
 cd MRI-2D-to-3D-Brain
 ```
 
-Install dependencies:
+Install the required Python packages:
 
 ```bash
 pip install -r requirements.txt
@@ -348,9 +408,9 @@ pip install -r requirements.txt
 
 ---
 
-## Input Data
+# Input Data
 
-The application expects a folder containing MRI DICOM files.
+The application expects a directory containing MRI DICOM files.
 
 Example:
 
@@ -364,13 +424,17 @@ MRI Dataset/
         └── ...
 ```
 
-The application scans the selected directory and attempts to identify usable DICOM series automatically.
+The application scans the selected directory and identifies available DICOM series.
 
-For privacy and repository size reasons, the original patient DICOM dataset is **not included in this repository**.
+The original patient dataset is **not included in this repository**.
+
+No patient-identifiable DICOM data is distributed with the project.
 
 ---
 
-## Running the Main Demo
+# Running the Project
+
+## Main Implementation
 
 Run:
 
@@ -378,92 +442,165 @@ Run:
 python src/brain_3D.py
 ```
 
-A folder-selection window will appear.
+The application opens a folder-selection dialog.
 
-Select the directory containing the DICOM MRI data.
+Select the directory containing the MRI DICOM data.
 
-The program will then:
+The program then performs:
 
-1. Scan available DICOM series
-2. Rank candidate MRI sequences
-3. Allow the user to select a series
-4. Reconstruct the 3D volume
-5. Normalize and resample the volume
-6. Extract the brain mask
-7. Generate the 3D brain surface
-8. Estimate ventricular / CSF regions
-9. Save 3D models
-10. Open the interactive 3D viewer
-
----
-
-## Research Notes
-
-This project focuses on **3D reconstruction and visualization**, rather than medical diagnosis.
-
-The ventricular / CSF region is an algorithmic intensity-based estimate and should not be interpreted as a clinically validated anatomical segmentation.
-
-No tumor diagnosis, lesion diagnosis, or clinical decision-making is performed by this software.
+```text
+1. Scan DICOM files
+2. Analyze available MRI series
+3. Rank candidate series
+4. Select an MRI series
+5. Reconstruct the 3D volume
+6. Normalize image intensity
+7. Resample to approximately 1 mm isotropic spacing
+8. Extract the brain region
+9. Generate the 3D surface
+10. Generate optional ventricular / CSF estimate
+11. Export 3D meshes
+12. Open the interactive viewer
+```
 
 ---
 
-## Limitations
+## Simplified Viewer
 
-The reconstruction quality depends strongly on the input MRI acquisition and DICOM series.
+Run:
 
-Potential factors include:
+```bash
+python src/brain_3d_viewer.py
+```
 
+This implementation provides an independent workflow for generating and interactively viewing a 3D brain surface.
+
+---
+
+## Surface Reconstruction
+
+Run:
+
+```bash
+python src/surface_3d.py
+```
+
+This implementation provides another independent approach based on thresholding, morphological processing, and surface extraction.
+
+---
+
+# Example Result
+
+The generated 3D mesh can be interactively rotated, zoomed, and inspected from different viewing angles.
+
+The project is designed to demonstrate the complete concept of:
+
+```text
+2D Medical Images
+        ↓
+3D Volume
+        ↓
+3D Brain Surface
+        ↓
+Interactive Visualization
+```
+
+---
+
+# Limitations
+
+The reconstruction quality depends on the characteristics of the input MRI dataset.
+
+Important factors include:
+
+- MRI sequence
 - Slice thickness
 - In-plane resolution
-- MRI sequence
-- Patient positioning
+- Voxel spacing
 - Image orientation
+- Patient positioning
 - Motion artifacts
+- Missing slices
 - Intensity characteristics
-- Missing or incomplete slices
+- Quality of brain segmentation
 
-Threshold-based segmentation may also include or exclude anatomical structures incorrectly in some datasets.
+Classical threshold-based segmentation can produce inaccurate boundaries on some MRI datasets.
+
+Therefore, the resulting 3D surface should be considered an approximate reconstruction rather than a ground-truth anatomical model.
 
 ---
 
-## Future Improvements
+# Medical / Research Disclaimer
+
+This project is intended for **research, education, experimentation, and visualization**.
+
+It is **not a clinically validated medical device**.
+
+The algorithmic ventricular / CSF estimation is based on image intensity and processing heuristics and should not be interpreted as clinically validated anatomical segmentation.
+
+This software should not be used for:
+
+- Medical diagnosis
+- Treatment decisions
+- Surgical planning
+- Surgical navigation
+- Clinical measurements
+
+---
+
+# Future Improvements
 
 Potential future improvements include:
 
-- Automatic T1 sequence selection
-- More robust skull stripping
-- Advanced brain segmentation
+- More robust automatic T1 selection
+- Advanced skull stripping
+- Deep-learning-based brain segmentation
 - Anatomical structure segmentation
-- Better handling of anisotropic MRI
-- Multi-planar visualization
+- Improved handling of anisotropic MRI
+- Multi-planar reconstruction
+- Interactive slice viewer
 - Web-based 3D visualization
 - GPU acceleration
-- Deep-learning-based segmentation
+- Automated quality assessment
 - Support for additional medical imaging formats
 
 ---
 
-## Disclaimer
+# Project Purpose
 
-This repository is a **research and demonstration project**.
+This project was developed to explore the practical challenges involved in converting 2D medical imaging data into an interactive 3D representation.
 
-It has not been clinically validated and should not be used for diagnosis, treatment planning, surgical navigation, or other clinical decisions.
+The main focus areas are:
+
+```text
+Medical Imaging
+Computer Vision
+3D Reconstruction
+Image Processing
+DICOM Processing
+3D Mesh Generation
+Interactive Visualization
+```
 
 ---
 
-## Author
+# Author
 
 **Alireza Sobhani**
 
 Computer Vision Engineer | AI Engineer
 
-Focused on:
+Areas of interest:
 
-```text
-Computer Vision
-Machine Learning
-Deep Learning
-Medical Imaging
-3D Reconstruction
-Video AI
-```
+- Computer Vision
+- Machine Learning
+- Deep Learning
+- Medical Imaging
+- 3D Reconstruction
+- Video AI
+
+---
+
+## License
+
+This repository is provided for research and educational purposes.
